@@ -51,6 +51,9 @@
 #        define CHARYBDIS_DRAGSCROLL_BUFFER_SIZE 6
 #    endif // !CHARYBDIS_DRAGSCROLL_BUFFER_SIZE
 
+// My custom constants
+#define RIGHT_TRACKBALL_DEFAULT_CPI 700
+
 typedef union {
     uint8_t raw;
     struct {
@@ -410,6 +413,22 @@ void charybdis_config_dual_sync_handler(uint8_t initiator2target_buffer_size, co
 }
 #endif
 
+// Custom initialization
+bool is_left = true;
+
+void enable_left_trackball_scroll(void) {
+    bool left_scroll_enabled = true;
+    charybdis_set_pointer_dragscroll_enabled(left_scroll_enabled, is_left);
+}
+
+void set_right_trackball_default_cpi(void) {
+    pointing_device_set_cpi_on_side(!is_left, RIGHT_TRACKBALL_DEFAULT_CPI); //Set cpi on right side to a reasonable value for mousing.
+}
+
+void keyboard_post_init_user(void) {
+    enable_left_trackball_scroll();
+    set_right_trackball_default_cpi();
+}
 
 void keyboard_post_init_kb(void) {
     maybe_update_pointing_device_cpi(&g_charybdis_config_left, true);
