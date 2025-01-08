@@ -112,7 +112,11 @@ static void maybe_update_pointing_device_cpi(charybdis_config_t* config, bool is
     } else if (config->is_sniping_enabled) {
         pointing_device_set_cpi_on_side(is_left, get_pointer_sniping_dpi(config));
     } else {
-        pointing_device_set_cpi_on_side(is_left, get_pointer_default_dpi(config));
+        if (!is_left) {
+            pointing_device_set_cpi_on_side(is_left, RIGHT_TRACKBALL_DEFAULT_CPI);
+        } else {
+            pointing_device_set_cpi_on_side(is_left, get_pointer_default_dpi(config));
+        }
     }
 }
 
