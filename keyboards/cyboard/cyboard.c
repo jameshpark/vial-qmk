@@ -429,9 +429,15 @@ void set_right_trackball_default_cpi(void) {
     pointing_device_set_cpi_on_side(!is_left, RIGHT_TRACKBALL_DEFAULT_CPI); //Set cpi on right side to a reasonable value for mousing.
 }
 
+void pointing_device_init_user(void) {
+    set_auto_mouse_layer(1); // only required if AUTO_MOUSE_DEFAULT_LAYER is not set to index of <mouse_layer>
+    set_auto_mouse_enable(true); // always required before the auto mouse feature will work
+}
+
 void keyboard_post_init_user(void) {
     enable_left_trackball_scroll();
     set_right_trackball_default_cpi();
+    pointing_device_init_user();
 }
 
 void keyboard_post_init_kb(void) {
